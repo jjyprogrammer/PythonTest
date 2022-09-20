@@ -1,0 +1,176 @@
+import argparse, os, sys
+
+def print_version():
+    print('Telenav Build Tools version ')
+
+
+def print_project_dirs(all, deep):
+    print("print_project_dirs")
+
+
+def print_projects(platform_name, all, build_order, unused, streamformat):
+    print("print_projects")
+
+
+def print_dependencies(platform_name, build_order):
+    print("print_dependencies")
+
+
+def print_status(platform_name):
+    print("print_status")
+
+
+def print_env(platform_name):
+    print("print_env")
+
+
+def build(platform_name, all, force, in_docker, skip_tests):
+    print("build")
+
+
+def integrate(platform_name, job_type=None):
+    print("integrate")
+ 
+ 
+def publish(platform_name, all, dest):
+    print("publish")
+
+
+def open_docker_shell(platform_name, image):
+    print("open_docker_shell")
+
+
+def list_cached_artifacts():
+    print("list_cached_artifacts")
+
+
+def purge_cache(age):
+    print("purge_cache")
+    
+def clean() :
+    print("clean")
+    
+if __name__ == '__main__' :
+    prog = os.path.basename(sys.argv[0])
+    argparser = argparse.ArgumentParser(
+        prog=prog,
+        #add_help = False, # we'll add it manually
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        description='',
+        epilog= 
+            "Type '%(prog)s <command> --help' to read about specific command.\n\nFor additional information see http://<wiki>" % vars()
+        )
+    argparser.add_argument('-v', '--verbose', help="show debug output", action='store_true', dest='verbose', default=os.environ.get('TN_VERBOSE', False))
+    argparser.add_argument('-C', '--workdir', help="work in a given directory", metavar='<path>', dest='workdir', default=os.getcwd())
+    
+    
+    def help():
+        argparser.print_help()
+        exit(0)
+    subparsers = argparser.add_subparsers(title='commands')
+
+    subparser = subparsers.add_parser('help', help='show this help message')
+    subparser.set_defaults(action=help)
+
+    subparser = subparsers.add_parser('version', help='print build tools version')
+    subparser.set_defaults(action=print_version)
+
+    subparser = subparsers.add_parser('clean', help='remove built files for projects under current working directory')
+    subparser.add_argument('-a', '--all', help="apply to all projects in the workspace", action='store_true', dest='all')
+    subparser.add_argument('-u', '--untracked', help="delete all files not under source control", action='store_true', dest='untracked')
+    subparser.set_defaults(action=clean)
+
+    subparser = subparsers.add_parser('build', help='build projects and their dependencies')
+    subparser.add_argument('-t', '--platform', help="platform name", metavar='<platform>', dest='platform_name')
+    subparser.add_argument('-a', '--all', help="apply to all projects in the workspace", action='store_true', dest='all')
+    subparser.add_argument('-f', '--force', help="force rebuild", action='store_const', dest='force', const='current')
+    subparser.add_argument('-F', '--force-all', help="force rebuild of project and all dependencies", action='store_const', dest='force', const='all')
+    subparser.add_argument('-D', '--in-docker', help="run build in Docker container", action='store_true', dest='in_docker')
+    subparser.add_argument('--skip-test', help="do not run unit tests", action='store_true', dest='skip_tests')    
+    subparser.set_defaults(action=build)
+
+
+    # subparser = subparsers.add_parser('install', help='install project')
+    # subparser.add_argument('-t', '--platform', help="platform name", metavar='<platform>', dest='platform_name')
+    # subparser.add_argument('-a', '--all', help="install all projects in the workspace", action='store_true', dest='all')
+    # subparser.add_argument('--prefix', help="install prefix, i.e. directory to install to", metavar='<prefix>')
+    # subparser.set_defaults(action=install)
+
+
+    # parser = subparsers.add_parser('grep', help='search for a given pattern in source code')
+    # parser.add_argument('pattern', help="pattern")
+    # parser.set_defaults(action=grep)
+
+    # subparser = subparsers.add_parser('fetch', help='fetch given components into global cache')
+    # subparser.add_argument('name', type=str, nargs='+', help='component name')    
+    # subparser.add_argument('-t', '--platform', help="platform name", metavar='<platform>', dest='platform_name')
+    # subparser.add_argument('--repo-name', type=str, nargs='+', help='repository name', dest='repo_names')    
+    # subparser.set_defaults(action=fetch)
+
+    # subparser = subparsers.add_parser('update', help='fetch all external dependencies')
+    # subparser.add_argument('-t', '--platform', help="platform name", metavar='<platform>', dest='platform_name')
+    # subparser.set_defaults(action=update)
+
+    # subparser = subparsers.add_parser('publish', help='publish current project')
+    # subparser.add_argument('-t', '--platform', help="platform name", metavar='<platform>', dest='platform_name')
+    # subparser.set_defaults(action=publish)
+
+    subparser = subparsers.add_parser('integrate', help='run integration job in the same way as we do it on the build servers')
+    subparser.add_argument('-t', '--platform', help="platform name", metavar='<platform>', dest='platform_name')
+    subparser.add_argument('--type', help="job type, e.g. nightly or release", metavar='<type>', dest='job_type')
+    subparser.set_defaults(action=integrate)
+
+    subparser = subparsers.add_parser('publish', help='publish components to ivy repo')
+    subparser.add_argument('-t', '--platform', help="platform name", metavar='<platform>', dest='platform_name')
+    subparser.add_argument('-a', '--all', help="apply to all projects in the workspace", action='store_true', dest='all')
+    subparser.add_argument('--dest', help="publish dir", dest='dest')
+    subparser.set_defaults(action=publish)
+
+
+    # subparser = subparsers.add_parser('publish', help='publish build artifacts')
+    # subparser.add_argument('-t', '--platform', help="platform name", metavar='<platform>', dest='platform_name')
+    # subparser.add_argument('-a', '--all', help="apply to all projects in the workspace", action='store_true', dest='all')
+    # subparser.add_argument('-f', '--force', help="force rebuild", action='store_true', dest='force')
+    # subparser.add_argument('--dest', help="destination dir", metavar='<dir>', dest='dest')    
+    # subparser.set_defaults(action=publish)
+
+    subparser = subparsers.add_parser('dependencies', help='show dependencies between projects', formatter_class=argparse.RawDescriptionHelpFormatter)
+    subparser.add_argument('-t', '--platform', help="platform name", metavar='<platform>', dest='platform_name')
+    subparser.add_argument('--build-order', help="list dependencies in build order instead of alphabetical", action='store_true', dest='build_order')
+    subparser.set_defaults(action=print_dependencies)
+
+    subparser = subparsers.add_parser('projects', help='list projects in current workdir')
+    subparser.add_argument('-t', '--platform', help="platform name", metavar='<platform>', dest='platform_name')
+    subparser.add_argument('-a', '--all', help="apply to all projects in the workspace", action='store_true', dest='all')
+    subparser.add_argument('-m', help="print project names in stream format (similar to ls -m)", action='store_true', dest='streamformat')
+    subparser.add_argument('--build-order', help="list projects in build order instead of alphabetical", action='store_true', dest='build_order')
+    subparser.add_argument('--unused', help="only print projects not used by other projects in this workspace", action='store_true', dest='unused')
+    subparser.set_defaults(action=print_projects)
+
+    subparser = subparsers.add_parser('status', help='print project status')
+    subparser.add_argument('-t', '--platform', help="platform name", metavar='<platform>', dest='platform_name')
+    subparser.set_defaults(action=print_status)
+
+    subparser = subparsers.add_parser('project-dirs', help='list project directories')
+    subparser.add_argument('-a', '--all', help="apply to all projects in the workspace", action='store_true', dest='all')
+    subparser.add_argument('--deep', help="look for deeply buried projects that break rules and are not normally built", action='store_true', dest='deep')
+    subparser.set_defaults(action=print_project_dirs)
+
+    subparser = subparsers.add_parser('env', help='list variables in current project and platform configuration')
+    subparser.add_argument('-t', '--platform', help="platform name", metavar='<platform>', dest='platform_name')
+    subparser.set_defaults(action=print_env)
+
+    subparser = subparsers.add_parser('docker-shell', help='launch docker shell and mount current workspace as a volume')
+    subparser.add_argument('-t', '--platform', help="platform name", metavar='<platform>', dest='platform_name')
+    subparser.add_argument('--force-image', help="Docker image name", metavar='<image>', dest='image')
+    subparser.set_defaults(action=open_docker_shell)
+
+    subparser = subparsers.add_parser('cached-artifacts', help='list the contents of artifact cache')
+    subparser.set_defaults(action=list_cached_artifacts)
+
+    subparser = subparsers.add_parser('purge-cache', help='remove old cached artifacts')
+    subparser.add_argument('--max-age', help="remove artifacts older than given number of days", dest='age', default=7, type=int)
+    subparser.set_defaults(action=purge_cache)
+
+    args = argparser.parse_args()
+    kwargs = dict([(var,val) for var,val in vars(args).iteritems() if var not in ('action', 'verbose', 'help', 'workdir', 'ignore')])

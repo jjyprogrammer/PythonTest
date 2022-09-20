@@ -1,0 +1,112 @@
+{
+    "formats": {
+        "meta_data": {
+            "meta": {
+                "name": "records",
+                "version": "1.0.0.0"
+            }
+        },
+        "region_tile": {
+            "compressed": "lz4",
+            "meta": {
+                "name": "admins",
+                "version": "1.0.0.0"
+            },
+            "blobs": [
+                {
+                    "compressed": "lz4",
+                    "name": "patch",
+                    "version": "1.0.0.0"
+                }
+            ]
+        },
+        "feat_tile": {
+            "compressed": "lz4",
+            "meta": {
+                "name": "features",
+                "version": "1.0.0.0"
+            },
+            "blobs": [
+                {
+                    "compressed": "lz4",
+                    "name": "patch",
+                    "version": "1.0.0.0"
+                }
+            ]
+        },
+        "name_index": {
+            "compressed": "lz4",
+            "meta": {
+                "name": "meta",
+                "version": "1.0.0.0"
+            },
+            "blobs": [
+                {
+                    "name": "files",
+                    "version": "1.0.0.0"
+                }
+            ]
+        },
+        "road_tile": {
+            "meta": {
+                "name": "meta",
+                "version": "1.0.0.0"
+            },
+            "blobs": [
+                {
+                    "compressed": "lz4",
+                    "name": "links",
+                    "version": "1.0.0.0"
+                },
+                {
+                    "compressed": "lz4",
+                    "name": "roc_rels",
+                    "version": "1.0.0.0"
+                },
+                {
+                    "compressed": "lz4",
+                    "name": "gui_rels",
+                    "version": "1.0.0.0"
+                },
+                {
+                    "compressed": "lz4",
+                    "name": "patch",
+                    "version": "1.0.0.0"
+                }
+            ]
+        },
+        "attribute_tile": {
+            "meta": {
+                "name": "meta",
+                "version": "1.0.0.0"
+            },
+            "blobs": [
+                {
+                    "name": "attribute_block1",
+                    "version": "1.0.0.0"
+                }
+            ]
+        }
+    },
+    "layer": [
+        {
+            "id": 0,
+            "name": "map"
+        }
+    ],
+    "pool": {
+        "unit": "KB",
+        "roadTile": 256,
+        "featTile": 256
+    },
+    "cache": {
+        "roadTile_unit": "MB",
+        "featTile_unit": "MB",
+        "roadTile": 15,
+        "dispTile": 0,
+        "featTile": 0,
+        "roadName": 25,
+        "featName": 25
+    },
+    "adas_chs": 0
+}

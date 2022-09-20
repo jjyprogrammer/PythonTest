@@ -9,3 +9,14 @@ install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
 _deps
+build/CMakeFiles
+chunkDataTest/0914/configuration
+chunkDataTest/0914/include
+chunkDataTest/0914/lib
+chunkDataTest/0914/samplecode
+checkCallTest/build
+envTest/build
+*.cmake
+*.tcl
+*.exe
+*.pyc
